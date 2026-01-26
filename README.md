@@ -9,29 +9,29 @@ The main objective of this API is to provide a simple inventory management tool 
 It centralizes inventory movements and enforces basic business rules to keep stock consistent.
 
 #### Business rules
-		Stock levels can only be modified through transfers.
-		Transfer types: 
-			IN (entry) 
+		Stock levels can only be modified through transfers
+		Transfer types:
+			IN (entry)
 			MOVE (internal movements)
 			OUT (take out)
-		Only registered users are allowed to perform transfers.
-		A material is deleted when its stock reaches zero.
+		Only registered users are allowed to perform transfers
+		A material is deleted when its stock reaches zero
 
 #### Scope
 ###### Features included
-		Create and login as a user.
+		Create and login as a user
 		Create and delete materials (stock is managed only through transfers)
-		Stock movements through transfers.
-		A maximum of fifty warehouse positions.
-		Transfer history tracking.
-		Retrieve material stock by ID.
-		Retrieve material locations.
-		List all materials with their quantities and locations.
+		Stock movements through transfers
+		A maximum of fifty warehouse positions
+		Transfer history tracking
+		Retrieve material stock by ID
+		Retrieve material locations
+		List all materials with their quantities and locations
 ###### Not included
-		Managing more than fifty warehouse locations.
-		Dynamic creation of new warehouse positions..
-		Supplier and customer managment.
-		Purchase and sales order managment.
+		Managing more than fifty warehouse locations
+		Dynamic creation of new warehouse positions
+		Supplier and customer managment
+		Purchase and sales order managment
 
 #### Core concepts
 ###### User
@@ -48,10 +48,9 @@ Locations can be queried to determine whether they are available or occupied.
 ###### Transfer
 Represents a stock movement and is the only way to modify inventory levels.
 There are three types of transfers:
-	
-	IN: Adds a material to the inventory. A quantity must be provided. If the material does not exist, it is created.
-	OUT: Removes a quantity of a material from the inventory. Stock cannot become negative.
-	MOVE: Relocates a material from one location to another. This operation does not modify stock quantity.
+	IN: Adds a material to the inventory. A quantity must be provided. If the material does not exist, it is created
+	OUT: Removes a quantity of a material from the inventory. Stock cannot become negative
+	MOVE: Relocates a material from one location to another. This operation does not modify stock quantity
 
 All transfers are executed by authenticated users and are stored to provide a complete inventory movement history.
 
@@ -63,36 +62,63 @@ There exist 3 types of transfers: IN, OUT and MOVE.
 The "IN" transfer allows user to add materials to the stock.
 
 ###### Validations
-	Quantity must be greater than 0.
-	At least one location must be available to perform this operation.
-	If the material does not exist, it is created.
+	Quantity must be greater than 0
+	At least one location must be available to perform this operation
+	If the material does not exist, it is created
 
 ###### Possible errors
-	The warehouse has no more available locations.
-	Invalid or non positive quantity.
+	The warehouse has no more available locations
+	Invalid or non positive quantity
 
 ###### OUT Transfer
 The "OUT" transfer remove materials from stock.
 
 ###### Validations
-	The material must exist.
-	The material quantities must be sufficient to perform the operation.
-	If the material quantity reach zero it will be deleted.
+	The material must exist
+	The material quantities must be sufficient to perform the operation
+	If the material quantity reach zero it will be deleted
 
 ###### Possible errors
-	Not enough stock to perform operation.
-	The material not exists.
-	Invalid or non positive quantity.
+	Not enough stock to perform operation
+	The material not exists
+	Invalid or non positive quantity
 
 ###### MOVE Transfer
 The "MOVE" transfer move a material from its current location to another.
 
 ###### Validations
-	The destination location must be available.
-	This operation doest not modify stock quantity.
-	The material must exist.
+	The destination location must be available
+	This operation doest not modify stock quantity
+	The material must exist
 
 ###### Possible errors
-	The material not exists.
-	The location is not available.
-	Invalid location destination.
+	The material not exists
+	The location is not available
+	Invalid location destination
+
+#### Architecture overview
+Warehouse manager is a project that is implemented as a modular monolithic API.
+Responsibilities are separated into layers to keep business logic independent from infrastructure and delivery mechanisms.
+
+######  API layer
+	Handles requests
+	Validate user inputs
+	Delegate operations to domain layer
+	Handles responses
+
+###### Domain layer
+	Contains the core business logic including transfers validations and inventory behavior.
+	Validate business rules.
+
+###### Persistence layer
+	This layer encapsulate all database interactions and provides an interface for data access.
+
+###### Infrastructure layer
+	Manages technical concerns: database configuration, authentication, and application settings.
+
+###### Flow
+A typical request flows from the API layer to the domain services, which apply business rules and interact with repositories to persist changes.
+This separation allows the system to evolve and scale while keeping responsibilities clearly defined.
+
+###### Architectural Decision
+This architecture was chosen to start with a simple and maintainable monolith, while allowing future evolution into a microservices-based architecture if required.
