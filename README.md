@@ -48,8 +48,51 @@ Locations can be queried to determine whether they are available or occupied.
 ###### Transfer
 Represents a stock movement and is the only way to modify inventory levels.
 There are three types of transfers:
+	
 	IN: Adds a material to the inventory. A quantity must be provided. If the material does not exist, it is created.
 	OUT: Removes a quantity of a material from the inventory. Stock cannot become negative.
 	MOVE: Relocates a material from one location to another. This operation does not modify stock quantity.
 
 All transfers are executed by authenticated users and are stored to provide a complete inventory movement history.
+
+#### Transfer types & validations
+There exist 3 types of transfers: IN, OUT and MOVE.
+
+###### IN Transfer
+
+The "IN" transfer allows user to add materials to the stock.
+
+###### Validations
+	Quantity must be greater than 0.
+	At least one location must be available to perform this operation.
+	If the material does not exist, it is created.
+
+###### Possible errors
+	The warehouse has no more available locations.
+	Invalid or non positive quantity.
+
+###### OUT Transfer
+The "OUT" transfer remove materials from stock.
+
+###### Validations
+	The material must exist.
+	The material quantities must be sufficient to perform the operation.
+	If the material quantity reach zero it will be deleted.
+
+###### Possible errors
+	Not enough stock to perform operation.
+	The material not exists.
+	Invalid or non positive quantity.
+
+###### MOVE Transfer
+The "MOVE" transfer move a material from its current location to another.
+
+###### Validations
+	The destination location must be available.
+	This operation doest not modify stock quantity.
+	The material must exist.
+
+###### Possible errors
+	The material not exists.
+	The location is not available.
+	Invalid location destination.
