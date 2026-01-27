@@ -2,21 +2,21 @@ class Location:
     def __init__(self, letter, number):
         self.letter = letter
         self.number = number
-        self.location = letter + number
-        self.is_available = False
-        self.positions = 0
+        self.code = f"{letter}{number}"
+        self.is_occupied = False
 
     def __str__(self):
-        return f"Location: {self.location}"
+        return f"Location: {self.code}"
 
-    def empty(self):
-        if self.availability:
-            self.availability = False
-        self.positions -= 1
-        return f"Location set as empty."
+    def available(self):
+        return not self.is_occupied
 
-    def fill(self):
-        if not self.availability:
-            self.availability = True
-        self.positions += 1
-        return f"Location set as occupied."
+    def occupy(self):
+        if self.is_occupied:
+            raise ValueError("Location is already occupied.")
+        self.is_occupied = True
+
+    def free(self):
+        if not self.is_occupied:
+            raise ValueError("Location is already free.")
+        self.is_occupied = False
