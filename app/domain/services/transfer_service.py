@@ -36,3 +36,23 @@ class TransferServices:
         new_transfer = Transfer(user, trf_type, origin_location, quantity)
         self.transfer_repo.save(new_transfer)
         return new_transfer
+
+    def transfer_move(self, user, origin_location, destination_location, material_id, quantity):
+        trf_type = "Move"
+        if quantity <= 0:
+            raise ValueError("Quantity must be positive.")
+        if not self.material_repo.get_by_id(material_id):
+            raise ValueError("The material ID does not exist.")
+        origin_stock = self.stock_repo.get_stock(origin_location, material_id)
+        if not origin_stock:
+            raise ValueError("Stock does not exist.")
+        destination_stock = self.stock_repo.get_stock_by_location(destination_location)
+        if destination_stock and destination_stock.material_id != material_id:
+            raise ValueError("Destination location is occupied by another material.")
+        if not destination_stock:
+            destination_stock = self.stock_repo.create_stock(destination_location, material_id)
+        origin_stock.decrease_stock(quantity)
+        destination_stock.increase_stock(quantity)
+        new_transfer = Transfer(user, trf_type, origin_location, destination_location, quantity)
+        self.transfer_repo.save(new_transfer)
+        return new_transfer
