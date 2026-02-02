@@ -31,10 +31,6 @@ class TransferServices:
 
     def transfer_move(self, user, origin_location, destination_location, material_id, quantity):
         trf_type = "Move"
-        if quantity <= 0:
-            raise ValueError("Quantity must be positive.")
-        if not self.material_repo.get_by_id(material_id):
-            raise ValueError("The material ID does not exist.")
         origin_stock = self.stock_repo.get_stock(origin_location, material_id)
         if not origin_stock:
             raise ValueError("Stock does not exist.")
