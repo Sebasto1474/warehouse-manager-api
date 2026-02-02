@@ -3,11 +3,7 @@ class MaterialRepository:
         self.materials_id = {}
 
     def get_by_id(self, material_id):
-        if material_id in self.materials_id:
-            material_tgt = self.materials_id[material_id]
-        else:
-            return None
-        return material_tgt
+        return self.materials_id.get(material_id) # improve code
 
     def create(self, material_id, description):
         new_material = Material(material_id, description)
