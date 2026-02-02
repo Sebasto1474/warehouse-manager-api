@@ -1,3 +1,4 @@
+from domain.entities.material import Material
 class MaterialRepository:
     def __init__(self):
         self.materials_id = {}

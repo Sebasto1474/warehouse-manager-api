@@ -6,8 +6,11 @@ class Stock:
 
     def increase_stock(self, value):
         if value <= 0:
-            raise ValueError("Value must be greter than 0.")
+            raise ValueError("Value must be greater than 0.")
+        if self.quantity == 0:
+            self.location.occupy()
         self.quantity += value
+
 
     def decrease_stock(self, value):
         if value <= 0:
