@@ -6,4 +6,5 @@ class Transfer:
         self.origin_location = origin_location
         self.destination_location = destination_location
         self.quantity = quantity
-        timestamp = datetime.now()
+        self.timestamp = datetime.now()
+        self.trf_id = None

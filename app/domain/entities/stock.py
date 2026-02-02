@@ -14,7 +14,7 @@ class Stock:
             raise ValueError("Decrease value must be greater than 0.")
         if value > self.quantity:
             raise ValueError("Decrease value cannot be greater than current stock.")
-        decreased_value = self.quantity - value
-        if decreased_value == 0:
+        self.quantity -= value
+        if self.quantity == 0:
             self.location.free()
         
