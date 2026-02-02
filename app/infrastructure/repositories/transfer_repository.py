@@ -1,6 +1,9 @@
 class TransferRepository:
     def __init__(self):
-        pass
+        self.transfers = {}
 
     def save_transfer(self, transfer):
-        pass
+        self.transfers[transfer.id] = transfer
+
+    def list_all(self):
+        return self.transfers
