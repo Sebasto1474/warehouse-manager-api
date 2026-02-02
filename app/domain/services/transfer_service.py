@@ -21,7 +21,9 @@ class TransferServices:
 
     def transfer_out(self, user, origin_location, material_id, quantity):
         trf_type = "Out"
-        stock_out = self.stock_repo.get_stock(origin_location, material_id)
+        stock_out = self.stock_repo.get_stock_by_location(origin_location)
+        if stock_out and stock_out.material_id != material_id:
+            raise ValueError("Origin location is occupied by another material.")
         if not stock_out:
             raise ValueError("Stock does not exist.")
         stock_out.decrease_stock(quantity)
@@ -31,7 +33,9 @@ class TransferServices:
 
     def transfer_move(self, user, origin_location, destination_location, material_id, quantity):
         trf_type = "Move"
-        origin_stock = self.stock_repo.get_stock(origin_location, material_id)
+        origin_stock = self.stock_repo.get_stock_by_location(origin_location)
+        if origin_stock and origin_stock.material_id != material_id:
+            raise ValueError("Origin location is occupied by another material.")
         if not origin_stock:
             raise ValueError("Stock does not exist.")
         destination_stock = self.stock_repo.get_stock_by_location(destination_location)

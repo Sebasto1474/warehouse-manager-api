@@ -1,9 +1,6 @@
 class StockRepository:
     def __init__(self):
-        pass
-
-    def get_stock(self, location, material_id):
-        pass
+        self.stock_dict = {}
 
     def get_stock_by_location(self, location):
         pass
