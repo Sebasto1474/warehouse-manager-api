@@ -53,5 +53,10 @@ def main():
             f"Status: {loc["Status"]} | "
             f"Quantity: {loc["Quantity"]} | ")
 
+    print("\n------ MATERIALS DISPLAY ------")
+    for material_id, description in material_repo.materials.items():
+        print(f"Material ID: {material_id} | "
+            f"Description: {description}")
+
 if __name__ == "__main__":
         main()
