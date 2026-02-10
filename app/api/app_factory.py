@@ -1,4 +1,5 @@
 from flask import Flask
+from api.routes.health import health_bp
 
 def create_app():
     app = Flask(__name__)
@@ -7,6 +8,6 @@ def create_app():
     app.config["JSON_SORT_KEYS"]= False
     
     #blueprints
-    #from api.routes.transfers import transfers_bp
-    #app.register_blueprint(transfers_bp, url_prefix="/transfers")
+    app.register_blueprint(health_bp)
+    
     return app
