@@ -10,3 +10,13 @@ class StockRepository:
         new_stock = Stock(location, material_id)
         self.stock_locations[location] = new_stock # saving new stock
         return new_stock
+
+    def list_locations(self):
+        return [
+            {"Location" : location.code,
+            "Material ID" : stock.material_id,
+            "Status" : location.status,
+            "Quantity" : stock.quantity
+            }
+            for location, stock in self.stock_locations.items()
+        ]

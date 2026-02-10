@@ -2,16 +2,21 @@ class Location:
     def __init__(self, letter, number):
         self.letter = letter
         self.number = number
-        self.code = f"{letter}{number}"
         self.is_occupied = False
 
+    @property
+    def code(self):
+        return f"{self.letter}{self.number}"
+
+    @property
+    def status(self):
+        return "OCCUPIED" if self.is_occupied else "AVAILABLE"
+
     def __str__(self):
-        status = "OCCUPIED" if self.is_occupied else "FREE"
-        return f"{self.code} | Status: {status}"
-    
+        return self.code
+
     def __repr__(self):
-        status = "OCCUPIED" if self.is_occupied else "FREE"
-        return f"{self.code} | Status: {status}"
+        return f"Location(code={self.code}, status={self.status})"
 
     def available(self):
         return not self.is_occupied

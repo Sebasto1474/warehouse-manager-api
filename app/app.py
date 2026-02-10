@@ -47,8 +47,11 @@ def main():
         print(trf)
     
     print("\n------ LOCATIONS DISPLAY ------")
-    for location, stock in stock_repo.stock_locations.items():
-        print(f"{location} - {stock}")
+    for loc in stock_repo.list_locations():
+        print(f"Location: {loc["Location"]} | "
+            f"Material ID: {loc["Material ID"]} | "
+            f"Status: {loc["Status"]} | "
+            f"Quantity: {loc["Quantity"]} | ")
 
 if __name__ == "__main__":
         main()
