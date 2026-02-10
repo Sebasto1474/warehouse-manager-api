@@ -1,8 +1,15 @@
+from api.app_factory import create_app
+
 from domain.entities.location import Location
 from infrastructure.repositories.material_repository import MaterialRepository
 from infrastructure.repositories.stock_repository import StockRepository
 from infrastructure.repositories.transfer_repository import TransferRepository
 from services.transfer_services import TransferServices
+
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 def main():
     #Repositories
@@ -57,6 +64,3 @@ def main():
     for material_id, description in material_repo.materials.items():
         print(f"Material ID: {material_id} | "
             f"Description: {description}")
-
-if __name__ == "__main__":
-        main()
