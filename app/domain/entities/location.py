@@ -6,7 +6,12 @@ class Location:
         self.is_occupied = False
 
     def __str__(self):
-        return f"Location: {self.code}"
+        status = "OCCUPIED" if self.is_occupied else "FREE"
+        return f"{self.code} | Status: {status}"
+    
+    def __repr__(self):
+        status = "OCCUPIED" if self.is_occupied else "FREE"
+        return f"{self.code} | Status: {status}"
 
     def available(self):
         return not self.is_occupied

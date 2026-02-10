@@ -1,3 +1,4 @@
+from domain.entities.stock import Stock
 class StockRepository:
     def __init__(self):
         self.stock_locations = {}

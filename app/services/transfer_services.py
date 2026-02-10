@@ -21,8 +21,8 @@ class TransferServices:
         if not stock_in:
             stock_in = self.stock_repo.create_stock(destination_location, material_id)
         stock_in.increase_stock(quantity)
-        new_transfer = Transfer(user,trf_type, origin_location=None, destination_location=destination_location, quantity=quantity)
-        self.transfer_repo.save(new_transfer)
+        new_transfer = Transfer(user=user,trf_type=trf_type, origin_location=None, destination_location=destination_location, quantity=quantity)
+        self.transfer_repo.save_transfer(new_transfer)
         return new_transfer
 
 
@@ -34,8 +34,8 @@ class TransferServices:
         if not stock_out:
             raise ValueError("Stock does not exist.")
         stock_out.decrease_stock(quantity)
-        new_transfer = Transfer(user, trf_type, origin_location=origin_location, destination_location=None, quantity=quantity)
-        self.transfer_repo.save(new_transfer)
+        new_transfer = Transfer(user=user, trf_type=trf_type, origin_location=origin_location, destination_location=None, quantity=quantity)
+        self.transfer_repo.save_transfer(new_transfer)
         return new_transfer
 
     def transfer_move(self, user, origin_location, destination_location, material_id, quantity):
@@ -52,6 +52,6 @@ class TransferServices:
             destination_stock = self.stock_repo.create_stock(destination_location, material_id)
         origin_stock.decrease_stock(quantity)
         destination_stock.increase_stock(quantity)
-        new_transfer = Transfer(user, trf_type, origin_location, destination_location, quantity)
-        self.transfer_repo.save(new_transfer)
+        new_transfer = Transfer(user=user, trf_type=trf_type, origin_location=origin_location, destination_location=destination_location, quantity=quantity)
+        self.transfer_repo.save_transfer(new_transfer)
         return new_transfer

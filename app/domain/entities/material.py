@@ -4,4 +4,4 @@ class Material:
         self.description = description
 
     def __str__(self):
-        return f"Material code : {self.material_id} - {self.description}"
+        return f"Material code : {self.material_id} - Description: {self.description}"

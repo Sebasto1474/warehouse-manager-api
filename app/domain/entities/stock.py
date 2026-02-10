@@ -4,6 +4,12 @@ class Stock:
         self.material_id = material_id
         self.quantity = 0
 
+    def __str__(self):
+        return f"\n[STOCK INFORMATION]\nMaterial ID: {self.material_id} | Location: {self.location} | Quantity: {self.quantity}"
+
+    def __repr__(self):
+        return f"\n[STOCK INFORMATION]\nMaterial ID: {self.material_id} | Location: {self.location} | Quantity: {self.quantity}"
+
     def increase_stock(self, value):
         if value <= 0:
             raise ValueError("Value must be greater than 0.")
