@@ -14,7 +14,7 @@ class TransferServices:
         if not self.material_repo.get_by_id(material_id):
             if description is None:
                 raise ValueError("Material does not exist and no description was provided.")
-            self.material_repo.create(material_id, description)
+            self.material_repo.create_material(material_id, description)
         stock_in = self.stock_repo.get_stock_by_location(destination_location)
         if stock_in and stock_in.material_id != material_id:
             raise ValueError("Destination location is occupied by another material.")
